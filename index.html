@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Shift Cipher</title>
+
+		<style>
+			body {
+				text-align: center;
+				font-size: 100%;
+			}
+
+			fieldset {
+				width: 350px;
+				margin: 20px auto;
+			}
+
+			#copy {
+				color: #00f;
+				font-weight: bold;
+			}
+		</style>
+		
+		<script>
+				function _(x)
+				{
+					return document.getElementById(x);
+				}
+
+				function add(msg) {
+					_('result').innerHTML += msg;
+				}
+
+				function encode()
+				{
+					var t = '';
+					var n = parseInt(_('select').value);
+					var s = _('pt').value;
+					var l = s.length;
+
+					for(var i = 0; i < l; ++i)
+					{
+						var c = s.charCodeAt(i);
+
+						if(c >= 65 && c <= 90)
+						{
+							c -= 65;
+							c = (c + n) % 26;
+							c += 65;
+						}
+						else if(c >= 97 && c <= 122)
+						{
+							c -= 97;
+							c = (c + n) % 26;
+							c += 97;
+						}
+						t += String.fromCharCode(c);
+					}
+					_('ct').value = t;
+				}
+
+				function decode()
+				{
+					s = _('ct').value;
+					l = s.length;
+					node = _('result');
+					
+					while (node.hasChildNodes()) {
+						node.removeChild(node.firstChild);
+					}
+					
+					for (n = 0; n < 26; ++n) {
+						var t = '';
+						
+						for(i = 0; i < l; ++i)
+						{
+							c = s.charCodeAt(i);
+
+							if(c >= 65 && c <= 90)
+							{
+								c -= 65;
+								c = (c + n) % 26;
+								c += 65;
+							}
+							else if(c >= 97 && c <= 122)
+							{
+								c -= 97;
+								c = (c + n) % 26;
+								c += 97;
+							}
+							t += String.fromCharCode(c);
+						}
+						add('<p>n = ' + ((26 - n) % 26) + ': ' + t + '</p>');
+					}
+				}
+		</script>
+	</head>
+
+	<body>
+		<fieldset>
+			<legend>Encode</legend>
+			<table>
+				<tr>
+					<td>
+						<label for="pt">Plain text:</label>
+					</td>
+					<td>
+						<textarea id="pt" placeholder="Plain text"></textarea>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<label for="select">n: </label>
+						<select id="select">
+							<option>0</option>
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+							<option>6</option>
+							<option>7</option>
+							<option>8</option>
+							<option>9</option>
+							<option>10</option>
+							<option>11</option>
+							<option>12</option>
+							<option>13</option>
+							<option>14</option>
+							<option>15</option>
+							<option>16</option>
+							<option>17</option>
+							<option>18</option>
+							<option>19</option>
+							<option>20</option>
+							<option>21</option>
+							<option>22</option>
+							<option>23</option>
+							<option>24</option>
+							<option>25</option>
+						</select>
+					</td>
+					<td>
+						<button onclick="encode()">Encode</button>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+
+		<fieldset>
+			<legend>Decode</legend>
+			<table>
+				<tr>
+					<td>
+						<label for="ct">Cipher text:</label>
+					</td>
+					<td>
+						<textarea id="ct" placeholder="Cipher text"></textarea>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<button onclick="decode()">Decode</button>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+
+		<div id='result'></div>
+
+		<p id="copy">Copyright &copy; 2013 Hoàng Ân</p>
+	</body>
+</html>
